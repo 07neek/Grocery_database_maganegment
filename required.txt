@@ -1,0 +1,11 @@
+Flask
+Flask-SQLAlchemy
+python-dotenv
+Flask-Migrate
+Flask-Mail
+mysql-connector-python
+requests
+matplotlib
+numpy
+pip install -r requirements.txt
+#ctr+shift+c 
