@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Grocery System</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+    <!-- HEADER -->
+    <div class="header">
+        <div class="logo">Grocery System</div>
+
+        <div class="search-box">
+            <input type="text" id="search" placeholder="Search product...." onkeyup="searchProduct()">
+        </div>
+
+        <div class="icons">
+            <a href="/loan_calculator" title="loan_calculator" class="icon">📇</a>
+            <a href="/soldout" title="Sold Out" class="icon">
+                🧾 <span class="badge">{{ sold_out_count }}</span>
+            </a>
+            <a href="/vendor" title="Vendors" class="icon">📚</a>
+            <a href="/profile" title="Profile" class="icon">👤</a>
+        </div>
+    </div>
+
+    <h2 class="title"><b>DATASET</b></h2>
+
+    <!-- TABLE -->
+    {% block content %}
+    <div class="table-container">
+        <table id="productTable">
+            <thead>
+                <tr>
+                    <th>Product_id</th>
+                    <th>Product_name</th>
+                    <th>Unit</th>
+                    <th>Available_Quantity</th>
+                    <th>Stock</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in products %}
+                <tr>
+                    <td>{{ p.id }}</td>
+                    <td>{{ p.name }}</td>
+                    <td>{{ p.Unit }}</td>
+                    <td>{{ p.stock_quantity }}</td>
+                    <td class="{{ p.stock }}">{{ p.Stock }}</td>
+                    <td class="{{ p.price }}">{{ p.price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endblock %}
+
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+    </body>
+</html>
+

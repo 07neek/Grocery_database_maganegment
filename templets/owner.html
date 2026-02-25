@@ -1,0 +1,46 @@
+{% extends 'dashboard.html' %}
+{% block content %}
+    <!--  Owner TABLE -->
+    <div class="container">
+        <table id="vendorTable">
+            <thead>
+                <tr>
+                    <th>Owner_ID</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for v in owner %}
+                <tr>
+                    <td>{{ v.id }}</td>
+                    <td>{{ v.name }}</td>
+                    <td>{{ v.phone }}</td>
+                    <td>{{ v.email }}</td>
+                    <td>{{ v.role }}</td>
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <style>
+        .container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        th{
+            padding: 2vh 5vw;
+        }
+
+        td{
+            padding: 2vh 5vw;
+        }
+    </style>
+{% endblock %}

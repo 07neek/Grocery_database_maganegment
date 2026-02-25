@@ -1,0 +1,78 @@
+{% extends 'dashboard.html' %}
+{% block content %}
+    <!-- ADD VENDOR FORM -->
+    <div class="form-box">
+        <form method="POST" action="/add_vendor">
+            <input type="text" name="vendor_name" placeholder="Vendor_Name..." required>
+            <input type="text" name="company_name" placeholder="Company_Name..." required>
+            <input type="text" name="phone" placeholder="Phone" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="text" name="address" placeholder="address">
+            <button type="submit">Add Vendor</button>
+        </form>
+    </div>
+
+    <!-- VENDOR TABLE -->
+    <table id="vendorTable">
+        <thead>
+            <tr>
+                <th>Vendor_ID</th>
+                <th>Vendor_Name</th>
+                <th>Company_name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Address</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for v in vendors %}
+            <tr>
+                <td>{{ v.id }}</td>
+                <td>{{ v.name }}</td>
+                <td>{{ v.company }}</td>
+                <td>{{ v.phone }}</td>
+                <td>{{ v.email }}</td>
+                <td>{{ v.address }}</td>
+                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <style>
+        table{
+            margin-left: 18vh;            
+        }
+
+        .form-box{
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+            gap: 15px;
+            border-collapse: collapse;  
+        }
+
+        form, input{
+            background-color: rgba(221, 160, 110, 0.8);
+            padding-top: 15px;
+            padding-bottom: 15px;
+            padding-left: 10px;
+            padding-right: 10px;
+            text-align: center;
+            border: 2px solid #8b4513;
+            font-size: 16px;
+        }
+
+        button{
+            background-color: rgba(221, 160, 110, 0.8);
+            padding-top: 15px;
+            padding-bottom: 15px;
+            padding-left: 10px;
+            padding-right: 10px;
+            text-align: center;
+            border: 2px solid #8b4513;
+            font-size: 16px;
+        }
+    </style>
+{% endblock %}

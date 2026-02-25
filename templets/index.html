@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Grocery Magnament</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+    <script src="{{url_for('static', filename='main.js')}}"></script>
+</body>
+</html>
+
+
+<!-- <div class="old_code_refrence">
+        <div class="app">
+        <aside> 
+            <span class="logo">Grocery Magnament</span>
+            <ul>
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('products') }}">Products</a></li>
+                <li class='menu_sold'><a href="{{url_for('soldout')}}">Sold Out
+                    {% if sold_out_count %}
+                        <span class="badge">{{ sold_out_count }}</span>
+                    {% endif %}                   
+                </a></li>
+                <li><a href="{{url_for('vendors')}}">Vendor</a></li>
+            </ul>
+        </aside>
+        <main class="main">
+            <header class="topbar">
+                <div class="top_left">Grocery Magnament System</div>
+            </header>
+            <section class="content">
+                {% block content %}{% endblock %}
+            </section>
+        </main>
+    </div>
+</div> -->

@@ -1,0 +1,90 @@
+{% extends 'dashboard.html' %}
+{% block content %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <h2>Sold_out Items: ({{ count }})</h2>
+
+    {% if sold_out_list %}
+        <ul class="soldout-list">
+        {% for p in sold_out_list %}
+                <strong>[{{p.name}}] ,</strong>
+                {% if p.vendor %}- Vendor: {{p.name}}{% endif %}
+                <!-- <button class="btn message-vendor" data-vendor="{{p.vendor_id}}">Message-vendor</button> -->
+            
+        {% endfor %}
+        </ul>   
+    
+        <form id="sendAllForm">
+            <label> <b>Send: Sold_out list to:</b> </label>
+            <input name="recipient" placeholder="vendor@example.com or +91-9034567890" required>
+            <select name="method">
+                <option value="email">Email</option>
+                <option value="sms">SMS</option>
+            </select>
+            <button type="submit">Send</button>
+        </form>
+    {% else %}
+        <p>No Sold out Items - great!</p>
+    {% endif %}
+
+    <style>
+        .soldout-list{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        form{
+            margin-top: 215px;
+            margin-left: 370px;
+        }
+        .sendAllForm {
+            border-collapse: separate;
+        }
+        
+        input {
+            width: 300px;
+            height: 40px;
+            /* padding: 12px 20px; */
+            border: 2px solid #8b4513;
+            border-radius: 25px;
+            font-size: 17px;
+            background-color: rgba(221, 160, 110, 0.8); 
+        }
+
+        input:hover{
+            outline: none;
+            border-color: #ff6644;
+            box-shadow: 0 0 8px rgba(255, 102, 68, 0.6);
+        }
+
+        select{
+            width: 60px;
+            height: 30px;
+            cursor: pointer;
+            border: 2px solid #8b4513;
+            background-color: rgba(221, 160, 110, 0.8); 
+        }
+
+        select:hover{
+            outline: none;
+            border-color: #ff6644;
+            box-shadow: 0 0 8px rgba(255, 102, 68, 0.6);            
+        }
+
+        button{
+            width: 60px;
+            height: 30px;
+            cursor: pointer;
+            border: 2px solid #8b4513;
+            background-color: rgba(221, 160, 110, 0.8); 
+        }
+
+        button:hover{
+            outline: none;
+            border-color: #ff6644;
+            box-shadow: 0 0 8px rgba(255, 102, 68, 0.6);             
+        }
+    </style>
+
+{% endblock %}
