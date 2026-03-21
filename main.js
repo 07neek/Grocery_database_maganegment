@@ -13,7 +13,7 @@ function searchProduct() {
                         <td>${p.product_id}</td>
                         <td>${p.product_name}</td>
                         <td>${p.unit}</td>
-                        <td>${p.available_quantity}</td>
+                        <td>${p.Available_Quantity}</td>
                         <td class="${p.stock}">${p.stock}</td>
                         <td class="${p.price}">${p.price}</td>
                     </tr>

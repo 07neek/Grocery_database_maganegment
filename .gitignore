@@ -1,0 +1,29 @@
+# Environment variables (contains credentials — never commit)
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# SQLite databases
+*.db
+*.sqlite3
+
+# Generated chart images
+static/loan_charts/
+
+# IDE / OS
+.vscode/
+.idea/
+*.DS_Store
