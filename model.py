@@ -32,7 +32,7 @@ class InventryTransactions(db.Model):
     __tablename__ = "inventry_transactions"
 
     id = db.Column(db.Integer, primary_key=True)
-    Product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
     change_amount = db.Column(db.Integer, nullable=False)
     reason = db.Column(db.String(100))
     reference = db.Column(db.String(255))
