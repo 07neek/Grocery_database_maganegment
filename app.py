@@ -100,11 +100,11 @@ def loan():
         try:
             db.session.add(loans)
             db.session.commit()
-            return redirect('/loan_calculator')
         except Exception as e:
             db.session.rollback()
             flash(f'Error saving loan data: {str(e)}', 'error')
-    
+            return redirect('/loan_calculator')
+
         chart_folder = os.path.join('static', 'loan_charts')
         os.makedirs(chart_folder, exist_ok=True)
 
@@ -117,7 +117,7 @@ def loan():
         )
         plt.title("Loan Distribution")
 
-        pie_path = os.path.join(chart_folder, f"loan_{loan.id}_pie.png")
+        pie_path = os.path.join(chart_folder, f"loan_{loans.id}_pie.png")
         plt.savefig(pie_path)
         plt.close()
 
@@ -131,7 +131,7 @@ def loan():
         plt.xlabel("Components")
         plt.ylabel("Amount")
 
-        line_path = os.path.join(chart_folder, f"loan_{loan.id}_line.png")
+        line_path = os.path.join(chart_folder, f"loan_{loans.id}_line.png")
         plt.savefig(line_path)
         plt.close()
 
@@ -230,36 +230,41 @@ def send_vendor_sms():
 #small API to update stock after a sale
 @app.route('/api/decrease_stock', methods=['POST'])
 def decrease_stock():
-    data = request.json
-    product_id = data.get_json('product_id')
-    amount = int(data.get_json('price', 1))
-    Available_Quantity = int(data.get_json('stock_quantity'))
+    data = request.get_json(silent=True) or {}
+    product_id = data.get('product_id')
+    if product_id is None:
+        return jsonify({'error': 'product_id is required'}), 400
+    amount = int(data.get('amount', 1))
     p = Product.query.get(product_id)
     if not p:
-        return jsonify({'error':'Product_not_found'}), 404
-    
-    if Available_Quantity == 0:
-        return jsonify({'error':'out_of_stock'}), 404
-    
+        return jsonify({'error': 'product_not_found'}), 404
+
+    if p.stock_quantity <= 0:
+        return jsonify({'error': 'out_of_stock'}), 400
+
     tx = InventryTransactions(product_id=product_id, change_amount=-amount, reason='sale')
+    p.stock_quantity -= amount
+    if p.stock_quantity <= 0:
+        p.stock_quantity = 0
+        p.Stock = 'out_of_stock'
     db.session.add(tx)
     db.session.commit()
     return jsonify({'product_id': p.id, 'Available_Quantity': p.stock_quantity}), 200
 
 @app.route('/update_stock/<int:id>', methods=['POST'])
-def update_stock(product_id):
-    quantity = int(request.form.get['stock_quantity'])
-    product = Product.query.get_or_404(product_id)
-    product.stock_quantity == quantity
+def update_stock(id):
+    quantity = int(request.form.get('stock_quantity', 0))
+    product = Product.query.get_or_404(id)
+    product.stock_quantity = quantity
 
     if quantity == 0:
         product.Stock = 'out_of_stock'
     else:
         product.Stock = 'Available'
 
-    db.session.add(quantity)
+    db.session.add(product)
     db.session.commit()
-    return "Updated"
+    return redirect(url_for('dashboard'))
 
 @app.route('/add_vendor', methods=['POST'])
 def add_vendor():
@@ -267,128 +272,15 @@ def add_vendor():
         name=request.form['vendor_name'],
         company=request.form['company_name'],
         phone=request.form['phone'],
-        email=request.form['email']
-        
+        email=request.form['email'],
+        address=request.form.get('address', '')
     )
     db.session.add(vendor)
     db.session.commit()
     return redirect('/vendor')
 
-
-
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(debug=True)
+    app.run(debug=os.getenv('FLASK_DEBUG', 'false').lower() == 'true')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# import mysql.connector
-
-# try:
-#     # Establish a connection to the MySQL database
-#     connection = mysql.connector.connect(
-#         host="localhost",  # Or your MySQL server's IP address
-#         user="root",
-#         password="Sql@#1234",
-#         database="Grocery_management"
-#     )
-
-#     if connection.is_connected():
-#         print("Connected to MySQL database successfully!")
-
-#         # You can now create a cursor and execute SQL queries
-#         cursor = connection.cursor()
-#         cursor.execute("SELECT * FROM products")
-#         records = cursor.fetchall()
-#         for row in records:
-#             print(row)
-
-# except mysql.connector.Error as err:
-#     print(f"Error: {err}")
-
-# finally:
-#     # Close the connection
-#     if 'connection' in locals() and connection.is_connected():
-#         connection.close()
-#         print("MySQL connection closed.")
